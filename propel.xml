@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<config>
+    <propel>
+        <database>
+            <connections>
+                <connection id="runningdrills">
+                    <adapter>pgsql</adapter>
+                    <classname>Propel\Runtime\Connection\ConnectionWrapper</classname>
+                    <dsn>pgsql:host=localhost;dbname=runningdrills</dsn>
+                    <user>postgres</user>
+                    <!--password>Cho1jeex</password-->
+                    <password>von4ooTau</password>
+                </connection>
+            </connections>
+        </database>
+        <runtime>
+            <defaultConnection>runningdrills</defaultConnection>
+            <connection>runningdrills</connection>
+            <log name="defaultLogger">
+                <type>stream</type>
+                <path>/var/www/html/api-kettinglopers/logs/propel.log</path>
+                <level>300</level>
+            </log>
+            <log name="runningdrills">
+                <type>stream</type>
+                <path>/var/www/html/api-kettinglopers/logs/propel.log</path>
+            </log>            
+        </runtime>
+        <generator>
+            <defaultConnection>runningdrills</defaultConnection>
+            <connection>runningdrills</connection>
+        </generator>
+    </propel>
+</config>

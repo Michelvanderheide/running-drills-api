@@ -1,0 +1,11 @@
+{
+    "require": {
+        "propel/propel": "~2.0@dev",
+        "slim/slim": "^3.0" ,
+        "monolog/monolog": ">=1.1.0",
+        "tuupola/slim-jwt-auth": "^2.3"
+    },
+	"autoload": {
+		"classmap": ["generated-classes/"]
+	}    
+}

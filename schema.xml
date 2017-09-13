@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="runningdrills" defaultIdMethod="native">
+
+	<table name="account">
+		<column name="account_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="guid" type="varchar" required="false" />
+		<column name="account_name" type="varchar" required="false" />
+		<column name="account_email" type="varchar" required="false" />
+		<column name="account_password" type="varchar" required="false" />
+		<column name="is_removed" type="boolean" required="true" default="false" />
+		<unique name="idx_account_email">
+			<unique-column name="account_email" />
+		</unique>		
+	</table>
+
+	<table name="rungroup">
+		<column name="rungroup_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="rungroup_name" type="varchar" required="false" />
+	</table>
+
+	<table name="rungroup_account">
+		<column name="rungroup_account_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" isCrossRef="true" />
+		<column name="account_fk" type="integer" required="true" />
+		<column name="rungroup_fk" type="integer" required="true" />
+		<foreign-key onDelete="CASCADE" foreignTable="account"><reference local="account_fk" foreign="account_pk" /></foreign-key>
+		<foreign-key onDelete="CASCADE" foreignTable="rungroup"><reference local="rungroup_fk" foreign="rungroup_pk" /></foreign-key>
+	</table>
+
+	<table name="session">
+		<column name="session_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="guid" type="varchar" required="false" />
+		<column name="session_date" type="date" required="false" />
+		<column name="session_name" type="varchar" required="false" />
+		<column name="session_description" type="varchar" required="false" />
+		<column name="session_description_html" type="varchar" required="false" />
+	</table>
+
+	<table name="drill">
+		<column name="drill_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="guid" type="varchar" required="false" />
+		<column name="id" type="varchar" required="false" />
+		<column name="category_fk" type="integer" required="true" />
+		<column name="drill_title" type="varchar" required="false" />
+		<column name="drill_description" type="varchar" required="false" />
+		<column name="drill_description_html" type="varchar" required="false" />
+		<column name="drill_intervals" type="varchar" required="false" />
+		<column name="drill_image" type="varchar" required="false" />
+		<column name="drill_video" type="varchar" required="false" />
+		<foreign-key foreignTable="category"><reference local="category_fk" foreign="category_pk" /></foreign-key>		
+	</table>
+
+	<table name="session_drill">
+		<column name="session_drill_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" isCrossRef="true" />
+		<column name="drill_fk" type="integer" required="true" />
+		<column name="session_fk" type="integer" required="true" />
+		<column name="sort_order" type="integer" required="true" default="0" />
+		<foreign-key onDelete="CASCADE" foreignTable="drill"><reference local="drill_fk" foreign="drill_pk" /></foreign-key>
+		<foreign-key onDelete="CASCADE" foreignTable="session"><reference local="session_fk" foreign="session_pk"/></foreign-key>
+	</table>
+
+	<table name="session_rungroup">
+		<column name="session_rungroup_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" isCrossRef="true" />
+		<column name="session_fk" type="integer" required="true" />
+		<column name="rungroup_fk" type="integer" required="true" />
+		<column name="sort_order" type="integer" required="true" default="0" />
+		<foreign-key onDelete="CASCADE" foreignTable="session"><reference local="session_fk" foreign="session_pk" /></foreign-key>
+		<foreign-key onDelete="CASCADE" foreignTable="rungroup"><reference local="rungroup_fk" foreign="rungroup_pk" /></foreign-key>
+	</table>
+
+	<table name="category">
+		<column name="category_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="category_name" type="varchar" required="false" />
+	</table>
+
+	<table name="tag">
+		<column name="tag_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="tag_name" type="varchar" required="false" />
+	</table>
+
+	<table name="drill_tag">
+		<column name="drill_tag_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" isCrossRef="true" />
+		<column name="tag_fk" type="integer" required="true" />
+		<column name="drill_fk" type="integer" required="true" />
+		<foreign-key onDelete="CASCADE" foreignTable="tag"><reference local="tag_fk" foreign="tag_pk" /></foreign-key>
+		<foreign-key onDelete="CASCADE" foreignTable="drill"><reference local="drill_fk" foreign="drill_pk" /></foreign-key>
+	</table>
+
+</database>
