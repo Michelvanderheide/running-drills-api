@@ -5,7 +5,7 @@ $serviceContainer->setAdapterClass('runningdrills', 'pgsql');
 $manager = new \Propel\Runtime\Connection\ConnectionManagerSingle();
 $manager->setConfiguration(array (
   'classname' => 'Propel\\Runtime\\Connection\\ConnectionWrapper',
-  'dsn' => 'pgsql:host=localhost;dbname=runningdrills',
+  'dsn' => 'pgsql:host=api.kettinglopers.nl;dbname=runningdrills',
   'user' => 'postgres',
   'password' => 'von4ooTau',
   'model_paths' =>

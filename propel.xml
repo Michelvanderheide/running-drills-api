@@ -6,7 +6,7 @@
                 <connection id="runningdrills">
                     <adapter>pgsql</adapter>
                     <classname>Propel\Runtime\Connection\ConnectionWrapper</classname>
-                    <dsn>pgsql:host=localhost;dbname=runningdrills</dsn>
+                    <dsn>pgsql:host=api.kettinglopers.nl;dbname=runningdrills</dsn>
                     <user>postgres</user>
                     <!--password>Cho1jeex</password-->
                     <password>von4ooTau</password>

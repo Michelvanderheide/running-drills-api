@@ -17,7 +17,7 @@ class AuthMiddleware {
         global $handler, $apiConfig;
         $handler = new DrillHandler();
 
-        $handler -> logger -> addInfo("path:".print_r($request->getUri()->getPath(),true));
+        $handler -> logger -> addInfo("path--->:".print_r($request->getUri()->getPath(),true));
         $response = $next($request, $response);
 
         return $response;
