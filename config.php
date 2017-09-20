@@ -49,7 +49,7 @@ if ($apiConfig['env'] == "dev") {
 	$apiConfig['videodir'] = $apiConfig['basedir'] . '/videos/';
 	$apiConfig['videoUrl'] = $apiConfig['baseUrl'] . '/videos/';
 } else {
-	$apiConfig['baseUrl'] = "http://app.kettinglopers.nl";
+	$apiConfig['baseUrl'] = "http://api.kettinglopers.nl";
 	$apiConfig['imagedir'] = $apiConfig['basedir'] . '/images/';
 	$apiConfig['imageUrl'] = $apiConfig['baseUrl'] . '/images/';
 	$apiConfig['videodir'] = $apiConfig['basedir'] . '/videos/';
