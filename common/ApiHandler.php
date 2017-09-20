@@ -295,9 +295,4 @@ class ApiHandler {
 		echo json_encode($result);	
 	}	
 
-	public static function importSessionDrills() {
-		global $handler;
-		$handler -> importSessionDrills();
-	}
-
 }
