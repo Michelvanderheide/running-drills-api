@@ -119,7 +119,55 @@ $athleteTimes['Brian Morsinkhof'] = '44:13';
 $athleteTimes['Jorien Wegdam'] = '59:16';
 $athleteTimes['Linda Slaat'] = '44:13';
 
+$intervalPauzes['Int.'][100] = '01:00';
+$intervalPauzes['Int.'][200] = '01:30';
+$intervalPauzes['Int.'][300] = '01:00';
+$intervalPauzes['Int.'][400] = '02:30';
+$intervalPauzes['Int.'][500] = '02:45';
+$intervalPauzes['Int.'][600] = '03:00';
+$intervalPauzes['Int.'][700] = '03:15';
+$intervalPauzes['Int.'][800] = '03:30';
+$intervalPauzes['Int.'][1000] = '04:00';
+$intervalPauzes['Int.'][1200] = '04:30';
+$intervalPauzes['Int.'][1500] = '05:00';
+$intervalPauzes['Int.'][2000] = '08:00';
+
+$intervalPauzes['Ext.'][100] = '00:30';
+$intervalPauzes['Ext.'][200] = '01:00';
+$intervalPauzes['Ext.'][300] = '01:00';
+$intervalPauzes['Ext.'][400] = '01:30';
+$intervalPauzes['Ext.'][500] = '01:30';
+$intervalPauzes['Ext.'][600] = '02:00';
+$intervalPauzes['Ext.'][700] = '02:00';
+$intervalPauzes['Ext.'][800] = '02:30';
+$intervalPauzes['Ext.'][1000] = '03:00';
+$intervalPauzes['Ext.'][1200] = '03:00';
+$intervalPauzes['Ext.'][1500] = '03:30';
+$intervalPauzes['Ext.'][2000] = '04:00';
 
 
+$intervalPauzes['5K'][100] = '01:00';
+$intervalPauzes['5K'][200] = '01:30';
+$intervalPauzes['5K'][300] = '01:30';
+$intervalPauzes['5K'][400] = '02:00';
+$intervalPauzes['5K'][500] = '02:00';
+$intervalPauzes['5K'][600] = '02:30';
+$intervalPauzes['5K'][700] = '02:30';
+$intervalPauzes['5K'][800] = '03:00';
+$intervalPauzes['5K'][1000] = '03:30';
+$intervalPauzes['5K'][1200] = '04:00';
+$intervalPauzes['5K'][1500] = '05:00';
+$intervalPauzes['5K'][2000] = '06:00';
 
-//print_r($apiConfig);
+$intervalPauzes['10K'][100] = '00:30';
+$intervalPauzes['10K'][200] = '01:00';
+$intervalPauzes['10K'][300] = '01:00';
+$intervalPauzes['10K'][400] = '01:30';
+$intervalPauzes['10K'][500] = '01:30';
+$intervalPauzes['10K'][600] = '02:00';
+$intervalPauzes['10K'][700] = '02:00';
+$intervalPauzes['10K'][800] = '02:30';
+$intervalPauzes['10K'][1000] = '03:00';
+$intervalPauzes['10K'][1200] = '03:00';
+$intervalPauzes['10K'][1500] = '03:30';
+$intervalPauzes['10K'][2000] = '04:00';

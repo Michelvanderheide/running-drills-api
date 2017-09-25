@@ -93,6 +93,7 @@ $app->delete('/drills/{id}', '\ApiHandler:deleteDrill');
 
 
 $app->get('/athletetimes/', '\ApiHandler:getAthleteTimes');
+$app->get('/intervaltimes/', '\ApiHandler:getIntervalTimes');
 
 
 $app->get('/import', '\ApiHandler:importSessionDrills');

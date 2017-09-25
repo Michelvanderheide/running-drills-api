@@ -194,6 +194,32 @@ class ApiHandler {
 		echo json_encode($result);
 	}
 
+	public static function getIntervalTimes($request, $response, $args) {
+		global $handler,  $apiConfig;
+
+		$handler -> logger -> addInfo("getIntervalTimes - start");
+		
+		$params = $request -> getParsedBody();
+		try {
+
+			if (($intervalTimes = $handler -> getIntervalTimes()) == false) {
+				$result['data'] = array();
+				$result ["status"] = false;
+				$result ["message"] = $handler -> getErrorMessage();
+			} else {
+				$result['data'] = $intervalTimes;
+				$result['status'] = true;
+				$result ["message"] = '';
+			}
+		} catch (Exception $e) {
+			print_r($e);exit;
+		}
+
+		$handler -> logger -> addInfo("getIntervalTimes - done");
+		echo json_encode($result);
+	}	
+
+
 	public static function getAthleteTimes($request, $response, $args) {
 		global $handler,  $apiConfig;
 

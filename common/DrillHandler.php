@@ -138,6 +138,11 @@ class DrillHandler {
 		return $this -> errorMessage;
 	}
 
+	public function getIntervalTimes() {
+		global $intervalPauzes;
+		return array('intervalPauzes' => $intervalPauzes, 'athleteTimes' => $this -> getAthleteTimes());
+	}
+
 	public function getAthleteTimes() {
 		global $athleteTimes;
 
