@@ -194,6 +194,31 @@ class ApiHandler {
 		echo json_encode($result);
 	}
 
+	public static function getAthleteTimes($request, $response, $args) {
+		global $handler,  $apiConfig;
+
+		$handler -> logger -> addInfo("getAthleteTimes - start");
+		
+		$params = $request -> getParsedBody();
+		try {
+
+			if (($athleteTimes = $handler -> getAthleteTimes()) == false) {
+				$result['data'] = array();
+				$result ["status"] = false;
+				$result ["message"] = $handler -> getErrorMessage();
+			} else {
+				$result['data'] = $athleteTimes;
+				$result['status'] = true;
+				$result ["message"] = '';
+			}
+		} catch (Exception $e) {
+			print_r($e);exit;
+		}
+
+		$handler -> logger -> addInfo("getAthleteTimes - done");
+		echo json_encode($result);
+	}	
+
 	public static function saveDrill($request, $response, $args)   {
 		global $apiConfig;
 		$params = $request -> getParsedBody();

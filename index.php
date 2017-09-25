@@ -92,6 +92,7 @@ $app->post('/drills/{id}', '\ApiHandler:saveDrillAssets');
 $app->delete('/drills/{id}', '\ApiHandler:deleteDrill');
 
 
+$app->delete('/athletetimes/', '\ApiHandler:getAthleteTimes');
 
 
 $app->get('/import', '\ApiHandler:importSessionDrills');

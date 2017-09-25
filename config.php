@@ -81,7 +81,43 @@ $apiConfig['tagCategoryMapping']["Cooling down"] = 5;
 
 
 
-
+$athleteTimes['Nico van Putten'] = '45:03';
+$athleteTimes['Henk Dijkhuis'] = '48:33';
+$athleteTimes['Bernd Waanders'] = '40:00';
+$athleteTimes['Monique grievink'] = '56:49';
+$athleteTimes['Merian Burggraaf'] = '65:00';
+$athleteTimes['Remco Geerdink'] = '44:17';
+$athleteTimes['Annemarie Kelder'] = '57:01';
+$athleteTimes['Peter Scheeren'] = '43:29';
+$athleteTimes['Theo Kosters'] = '51:57';
+$athleteTimes['Gerben Heimerink'] = '41:35';
+$athleteTimes['Michel van de Heide'] = '37:00';
+$athleteTimes['Elisabeth Freriksen'] = '63:15';
+$athleteTimes['Mieke Prins'] = '44:04';
+$athleteTimes['Aschwin Kruders'] = '47:00';
+$athleteTimes['Robert Schreurs'] = '38:12';
+$athleteTimes['Jeroen Jansen'] = '47:13';
+$athleteTimes['Saskia Kruse'] = '46:50';
+$athleteTimes['Erik Wesselink'] = '51:03';
+$athleteTimes['Herman ten Hove'] = '46:36';
+$athleteTimes['Vincent Heering'] = '50:19';
+$athleteTimes['Jan Boink'] = '51:53';
+$athleteTimes['Ilse ten Doeschate'] = '59:16';
+$athleteTimes['Evelyne ad Stegge'] = '58:21';
+$athleteTimes['Erwin Middelhuis'] = '58:56';
+$athleteTimes['Joost Meyers'] = '43:56';
+$athleteTimes['Caroline Meyers'] = '58:56';
+$athleteTimes['Marloes Boink'] = '58:45';
+$athleteTimes['John Veltrop'] = '63:27';
+$athleteTimes['Margo Versteeg'] = '61:23';
+$athleteTimes['Manon Havekate'] = '61:21';
+$athleteTimes['Esther Hartgerink'] = '69:54';
+$athleteTimes['Annelies vd kolk'] = '51:30';
+$athleteTimes['Andre Blumink'] = '40:26';
+$athleteTimes['Kimberley Kranenburg'] = '46:20';
+$athleteTimes['Brian Morsinkhof'] = '44:13';
+$athleteTimes['Jorien Wegdam'] = '59:16';
+$athleteTimes['Linda Slaat'] = '44:13';
 
 
 

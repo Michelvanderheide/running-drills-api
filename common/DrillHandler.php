@@ -138,6 +138,30 @@ class DrillHandler {
 		return $this -> errorMessage;
 	}
 
+	public function getAthleteTimes() {
+		global $athleteTimes;
+
+		$roundedTimes = array();
+		foreach($athleteTimes as $name => $time) {
+
+			$arr = explode(':', $time);
+			$minutes = intval($arr[0]);
+			$seconds = intval($arr[0]);
+			if ($seconds < 15) {
+				$seconds = 0;
+			} else if ($seconds < 45) {
+				$minutes++;
+				$seconds = 0;
+			} else {
+				$seconds = 30;
+			}
+
+			$roundedTimes[$name] = sprintf("%02d.%02d", $minutes, $seconds);;
+		}
+		return $roundedTimes;
+		
+	}
+
 	/**
 	 * get a list of products in a dossier
 	 * @param filter: array the dossierFK
