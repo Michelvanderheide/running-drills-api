@@ -156,7 +156,7 @@ class DrillHandler {
 				$seconds = 30;
 			}
 
-			$roundedTimes[$name] = sprintf("%02d.%02d", $minutes, $seconds);;
+			$roundedTimes[$name] = sprintf("%02d:%02d", $minutes, $seconds);;
 		}
 		return $roundedTimes;
 		
