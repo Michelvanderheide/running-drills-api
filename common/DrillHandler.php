@@ -417,6 +417,9 @@ class DrillHandler {
 				$arrResult['name'] = $values['SessionName'];
 				$arrResult['description'] = $values['SessionDescription'];
 				$arrResult['descriptionHtml'] = $values['SessionDescriptionHtml'];
+				if (file_exists($apiConfig['imagedir'].'session-'.$values['SessionPk'].'.png')) {
+					$arrResult['image'] = $apiConfig['imagedir'].'session-'.$values['SessionPk'].'.png';
+				}
 				if ($categoryPk !== false) {
 					$arrResult['name'] = $arrResult['description'] = $arrResult['descriptionHtml'] = $values['CategoryName'];
 				}
