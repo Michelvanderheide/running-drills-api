@@ -452,11 +452,12 @@ class DrillHandler {
 			$drill['imgUrls'] = array();
 			//$this -> logger -> addInfo("Check if File exists:".$apiConfig['imagedir'].$filename);
 			$drill['imgUrl'] = ""; //$apiConfig['imageUrl'].'kettinglopers.png';
+			$drill['thumbimage'] = $apiConfig['imageUrl'].'kettinglopers.png';
 
 			//print_r($apiConfig['imagedir'].$filename);exit;
 			while (file_exists($apiConfig['imagedir'].$filename)) {
 				//$this -> logger -> addInfo("File exists!");
-				$drill['imgUrls'][] = $drill['imgUrl'] = $apiConfig['imageUrl'].$filename;
+				$drill['imgUrls'][] = $drill['imgUrl'] = $drill['thumbimage']= $apiConfig['imageUrl'].$filename;
 				$i++;
 				$filename = strtolower($drill['id'].'-'.$i.'.png');
 			}
