@@ -472,6 +472,7 @@ class DrillHandler {
 					$drill['hasYoutubeVideo'] = true;
 				}
 			}
+			$drill['hasImage'] = ($drill['imgUrl'] != '');
 
 			$drill['tags'] = array();
 			if (@isset($drillTags[$drill['id']])){
