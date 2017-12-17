@@ -346,4 +346,27 @@ class ApiHandler {
 		echo json_encode($result);	
 	}	
 
+	public static function saveDrillTag($request, $response, $args)   {
+		global $apiConfig;
+		$params = $request -> getParsedBody();
+		$handler = new DrillHandler();
+		$handler -> logger -> addInfo("saveDrillTag - start:".print_r($args,true));
+		$handler -> logger -> addInfo("saveDrillTag - params:".print_r($params,true));
+
+		try {
+			if (($drill = $handler -> saveDrillTag($params)) == false) {
+				$result['data'] = array();
+				$result ["status"] = false;
+				$result ["message"] = $handler -> getErrorMessage();
+			} else {
+				$result['data'] = $drill;
+				$result['status'] = true;
+				$result ["message"] = '';
+			}
+		} catch (Exception $e) {
+			print_r($e);exit;
+		}	
+		echo json_encode($result);	
+	}
+
 }

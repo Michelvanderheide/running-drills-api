@@ -204,7 +204,7 @@ class DrillHandler {
 
 		$drillTags = $query -> find() -> toArray();	
 		foreach($drillTags as $drillTag) {
-			$result[$drillTag['DrillFk']][] = $drillTag['TagName'];
+			$result[$drillTag['DrillFk']][] = $drillTag;
 		}
 		return $result;
 
@@ -319,6 +319,23 @@ class DrillHandler {
 		return $this -> getDrillByPk($drillPk);
 		
 	}
+
+	public function saveDrillTag($tag) {
+
+		$this -> logger -> addInfo("saveDrillTag:".$drillTag['DrillFk']);
+
+		if ($tag['active'] == false) {
+			$query = new DrillTagQuery();
+			$query -> where('DrillTag.DrillFk = ?', $tag['DrillFk']);
+			$query -> where('DrillTag.TagFk = ?', $tag['TagFk']);
+			$query -> find() -> delete();
+		} else {
+			$drillTag = new DrillTag();
+			$drillTag -> setTagFk(intval($tag['TagFk']));
+			$drillTag -> setDrillFk(intval($tag['DrillFk']));
+			$drillTag -> save();
+		}
+	}	
 
 	public function getDrillByPk($drillPk) {
 		//return (new DrillQuery()) ->findPK($drillPk) -> toArray();
@@ -474,15 +491,33 @@ class DrillHandler {
 			}
 			$drill['hasImage'] = ($drill['imgUrl'] != '');
 
-			$drill['tags'] = array();
-			if (@isset($drillTags[$drill['id']])){
-				$drill['tags'] = $drillTags[$drill['id']];
+			$tags = $this -> getTags('TagName');
+			$tagsbystatus = array();
+
+			foreach($tags as $tag) {
+				$tagbystatyspk = $drill['id']*1000+$tag['TagPk'];
+				$tagsbystatus[$tagbystatyspk] = array('DrillTagPk' =>0, 'TagFk' => $tag['TagPk'], 'DrillFk' => $drill['id'], 'TagName' => $tag['TagName'], 'active' => false, "color" => 'light');
 			}
 
+			$drill['tags'] = array();
+			if (@isset($drillTags[$drill['id']])){
+				foreach($drillTags[$drill['id']] as $drillTag) {
+
+					$drill['tags'][] = $drillTag['TagName'];
+					$tagsbystatus[$drill['id']*1000+$drillTag['TagFk']]['active'] = true; 
+					$tagsbystatus[$drill['id']*1000+$drillTag['TagFk']]['color'] = 'default'; 
+				}
+			}
+			$drill['tagsbystatus'] = array();
+			foreach($tagsbystatus as $tagbystatus) {
+				$drill['tagsbystatus'][] = $tagbystatus;
+			}
+			//print_r($drill['tags']);
 			$arrResult['drills'][$drillIdx] = $drill;
 			$arrResult['groups'][$categoryIdx]['drills'][] = $drill;
 			$arrResult['groups'][$categoryIdx]['groupName'] = $categoryName;
 		}
+		// /exit;
 		
 		return $arrResult;
 	}
@@ -529,11 +564,19 @@ class DrillHandler {
 	 
 	 * @return array
 	 */
-	public function getTags() {
+	public function getTags($key=false) {
 		$query = TagQuery::create();
 
 		$query -> orderByTagPk();
-		return $sessions = $query -> find() -> toArray();
+		$tags = $query -> find() -> toArray();
+		if ($key) {
+			foreach($tags as $tag) {
+				$result[$tag[$key]] = $tag;
+			}
+		} else {
+			$result = $tags;
+		}
+		return $result;
 	}	
 
 

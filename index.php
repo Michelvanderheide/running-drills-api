@@ -30,6 +30,7 @@ require_once 'common/ApiHandler.php';
 
 
 $handler = new DrillHandler();
+//exit("hier"); 
 $handler-> logger -> addInfo("server:".print_r($_SERVER,true));
 
 
@@ -56,6 +57,8 @@ use Slim\Log;
 
 //test();
 
+
+
 $configuration = [
     'settings' => [
         'displayErrorDetails' => true,
@@ -73,7 +76,7 @@ $app->add(new AuthMiddleware());
 
 
 // Product
-//exit("hier");   
+  
 $app->get('/trainingsessions/', '\ApiHandler:getTrainingSessions');
 
 $app->get('/sessiondrills/', '\ApiHandler:getSessionDrills');
@@ -97,6 +100,8 @@ $app->get('/intervaltimes/', '\ApiHandler:getIntervalTimes');
 
 
 $app->get('/import', '\ApiHandler:importSessionDrills');
+
+$app->post('/drilltag', '\ApiHandler:saveDrillTag');
 
 
 
