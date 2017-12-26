@@ -337,7 +337,7 @@ class DrillHandler {
 				$accountObject -> setAccountName($account['name']);	
 			}
 			if (isset($account['email'])) {
-				$accountObject -> setAccountEmail($account['email']);	
+				$accountObject -> setAccountEmail(trim(strtolower($account['email'])));	
 			}
 			if (isset($account['password'])) {
 				$accountObject -> setAccountPassword($account['password']);	
@@ -371,7 +371,7 @@ class DrillHandler {
 		$query = new AccountQuery();
 
 		if (isset($filter['email'])) {
-			$query -> where('Account.AccountEmail = ?', $filter['email']);
+			$query -> where('Account.AccountEmail = ?', trim(strtolower($filter['email'])));
 		}
 		if (isset($filter['password'])) {
 			$query -> where('Account.AccountPassword = ?', $filter['password']);
