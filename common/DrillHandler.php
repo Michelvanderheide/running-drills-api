@@ -1,6 +1,7 @@
 <?php
 
 use Propel\Runtime\ActiveQuery\Criteria;
+use Propel\Runtime\Propel;
 
 
 /*
@@ -86,8 +87,9 @@ use Monolog\Handler\StreamHandler;
  */
 class DrillHandler {
 	var $errorMessage;
-	var $token;
+	var $token = false;
 	var $authenticated = false;
+	var $user = false;
 	var $drills, $trainingSessions;
 
 	/**
@@ -107,6 +109,10 @@ class DrillHandler {
 		$this -> getSessionDrills();
 	}
 
+	public function setToken($token) {
+		$this -> token = $token;
+		$this -> user = $this -> getAccounts(array('guid' => $token))[0];
+	}
 
 	/**
 	 * get a list of products in a dossier
@@ -320,6 +326,74 @@ class DrillHandler {
 		
 	}
 
+	public function createAccount($account) {
+
+		$this -> logger -> addInfo("account.Account:".print_r($account,true));
+		try {
+			$accountObject = new Account();
+			$result = array();
+
+			if (isset($account['name'])) {
+				$accountObject -> setAccountName($account['name']);	
+			}
+			if (isset($account['email'])) {
+				$accountObject -> setAccountEmail($account['email']);	
+			}
+			if (isset($account['password'])) {
+				$accountObject -> setAccountPassword($account['password']);	
+			}
+			$accountObject -> setGuid($this -> createGuid());
+			$accountObject -> save();
+
+			if (isset($account['clinic'])) {
+				$rungroupAccount = new RungroupAccount();
+				if ($account['clinic']) {
+					$rungroupAccount -> setAccountFk($accountObject -> getAccountPk());	
+					$rungroupAccount -> setRunGroupFk(2);	// Clinic group
+				} else {
+					$rungroupAccount -> setAccountFk($accountObject -> getAccountPk());	
+					$rungroupAccount -> setRunGroupFk(3);	// AV loop group
+				}
+				$rungroupAccount -> save();
+			}			
+		} catch (Exception $e) {
+			return false;
+		}
+
+		return $accountObject -> toArray();
+		
+	}	
+
+	public function getAccounts($filter) {
+
+		$this -> logger -> addInfo("getAccount:".print_r($filter,true));
+
+		$query = new AccountQuery();
+
+		if (isset($filter['email'])) {
+			$query -> where('Account.AccountEmail = ?', $filter['email']);
+		}
+		if (isset($filter['password'])) {
+			$query -> where('Account.AccountPassword = ?', $filter['password']);
+		}
+		if (isset($filter['guid'])) {
+			$query -> where('Account.Guid = ?', $filter['guid']);
+		}		
+		return $query -> find() -> toArray();
+	}		
+
+	function createGuid()
+	{
+	    if (function_exists('com_create_guid') === true)
+	    {
+	        return trim(com_create_guid(), '{}');
+	    }
+
+	    return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+	}	
+
+
+
 	public function saveDrillTag($tag) {
 
 		$this -> logger -> addInfo("saveDrillTag:".$drillTag['DrillFk']);
@@ -431,6 +505,7 @@ class DrillHandler {
 
 				}
 				$arrResult['sessionDate'] = $prefix;
+				$arrResult['date'] = $values['SessionDate'];
 				$arrResult['name'] = $values['SessionName'];
 				$arrResult['description'] = $values['SessionDescription'];
 				$arrResult['descriptionHtml'] = $values['SessionDescriptionHtml'];
@@ -553,11 +628,72 @@ class DrillHandler {
 	}
 
 	public function getRungroups() {
-		$query = RungroupQuery::create();
 
+
+		$accountPk = -1;
+		if ($this -> user) {
+			$accountPk = $this -> user['AccountPk'];
+		}
+		$query = 'SELECT *, (select account_fk FROM rungroup_account WHERE rungroup_account.rungroup_fk=rungroup.rungroup_pk AND rungroup_account.account_fk=:p1) 
+			FROM rungroup order by rungroup_pk';
+		$con = Propel::getConnection();
+		$stmt = $con->prepare($query);
+		$stmt->bindParam(':p1', $accountPk, PDO::PARAM_INT);
+		$stmt->execute();
+		$groups = $stmt -> fetchAll();
+		$result = array();
+		foreach($groups as $i => $group) {
+			$active = ($group['account_fk'] !== null);
+			if ($accountPk == -1 && ($group['rungroup_pk'] == 3 || $group['rungroup_pk']==9999)){
+				$active = true;
+			}
+			$result[] = array('RungroupPk' => $group['rungroup_pk'], 'RungroupName' => $group['rungroup_name'], 'Active' => $active);
+
+		}
+		return $result;
+/*		$query = RungroupQuery::create();
+		$query -> leftJoin("Rungroup.RungroupAccount");
+		$query -> withColumn('RungroupAccount.AccountFk', 'AccountFk');	
+		$rungroups = $query -> find() -> toArray();
+		foreach($rungroups as $rungroup) 
+
+
+
+		//$query -> joinRungroupAccount(null, Criteria::RIGHT_JOIN);
+		//$c->addJoin(TwoPeer::THREE_ID, ThreePeer::ID, Criteria::LEFT_JOIN);
+
+//		$query -> where('RungroupAccount.AccountFk = ?', $accountPk);	
+//exit("hier:".$accountPk);
 		//$query -> orderByTagPk();
-		return $query -> find() -> toArray();
+		return $query -> find() -> toArray();*/
 	}
+
+	public function saveRungroups($rungroups) {
+		$this -> logger -> addInfo("saveRungroup:".$rungroups);
+		try {
+			
+			foreach($rungroups as $rungroup) {
+				if ($rungroup['Active']) {
+					// add
+					$rungroupAccount = new RungroupAccount();
+					$rungroupAccount -> setAccountFk($this -> user['AccountPk']);
+					$rungroupAccount -> setRungroupFk($rungroup['RungroupPk']);
+					$rungroupAccount -> save();
+
+				} else {
+					// delete
+					$query = RungroupAccountQuery::create();
+					$query -> where('RungroupAccount.AccountFk = ?', $this -> user['AccountPk']);
+					$query -> where('RungroupAccount.RungroupFk = ?', $rungroup['RungroupPk']);
+					$query -> find() -> delete();
+				}
+			}
+		} catch(Exception $e) {
+
+		}
+
+		return true;
+	}	
 
 	/**
 	 * get a list of tags

@@ -22,6 +22,10 @@
 		<column name="rungroup_account_pk" type="integer" required="true" primaryKey="true" autoIncrement="true" isCrossRef="true" />
 		<column name="account_fk" type="integer" required="true" />
 		<column name="rungroup_fk" type="integer" required="true" />
+		<unique name="idx_account_rungroup">
+			<unique-column name="account_fk" />
+			<unique-column name="rungroup_fk" />
+		</unique>			
 		<foreign-key onDelete="CASCADE" foreignTable="account"><reference local="account_fk" foreign="account_pk" /></foreign-key>
 		<foreign-key onDelete="CASCADE" foreignTable="rungroup"><reference local="rungroup_fk" foreign="rungroup_pk" /></foreign-key>
 	</table>

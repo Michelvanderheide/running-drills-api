@@ -88,6 +88,7 @@ $app->get('/drillsforcategory/{id}', '\ApiHandler:getDrillsForCategory');
 $app->get('/drills/', '\ApiHandler:getDrills');
 $app->get('/tags/', '\ApiHandler:getTags');
 $app->get('/groups/', '\ApiHandler:getRungroups');
+$app->post('/groups/', '\ApiHandler:saveRungroups');
 
 $app->put('/drills/{id}', '\ApiHandler:saveDrill');
 $app->post('/drill/', '\ApiHandler:createDrill');
@@ -103,6 +104,8 @@ $app->get('/import', '\ApiHandler:importSessionDrills');
 
 $app->post('/drilltag', '\ApiHandler:saveDrillTag');
 
+$app->post('/login', '\ApiHandler:getAccount');
+$app->post('/register', '\ApiHandler:createAccount');
 
 
 $app -> run();

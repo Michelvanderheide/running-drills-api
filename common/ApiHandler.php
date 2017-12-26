@@ -171,7 +171,7 @@ class ApiHandler {
 
 	public static function getRungroups($request, $response, $args) {
 		global $handler,  $apiConfig;
-
+		ApiHandler::authenticate($request);
 		$handler -> logger -> addInfo("getRungroups - start");
 		
 		$params = $request -> getParsedBody();
@@ -193,6 +193,31 @@ class ApiHandler {
 		$handler -> logger -> addInfo("getRungroups - done");
 		echo json_encode($result);
 	}
+
+	public static function saveRungroups($request, $response, $args) {
+		global $handler,  $apiConfig;
+		ApiHandler::authenticate($request);
+		$handler -> logger -> addInfo("getRungroups - start");
+		
+		$params = $request -> getParsedBody();
+		try {
+
+			if (($tags = $handler -> saveRungroups($params)) == false) {
+				$result['data'] = array();
+				$result ["status"] = false;
+				$result ["message"] = $handler -> getErrorMessage();
+			} else {
+				$result['data'] = array();
+				$result['status'] = true;
+				$result ["message"] = '';
+			}
+		} catch (Exception $e) {
+			print_r($e);exit;
+		}
+
+		$handler -> logger -> addInfo("getRungroups - done");
+		echo json_encode($result);
+	}	
 
 	public static function getIntervalTimes($request, $response, $args) {
 		global $handler,  $apiConfig;
@@ -344,6 +369,53 @@ class ApiHandler {
 			print_r($e);exit;
 		}	
 		echo json_encode($result);	
+	}
+
+	public static function createAccount($request, $response, $args)   {
+		global $apiConfig;
+		$params = $request -> getParsedBody();
+		$handler = new DrillHandler();
+		$handler -> logger -> addInfo("createAccount - start:".print_r($args,true));
+		$handler -> logger -> addInfo("createAccount - params:".print_r($params,true));
+
+		try {
+			if (($account = $handler -> createAccount($params)) == false) {
+				$result['data'] = array();
+				$result ["status"] = false;
+				$result ["message"] = $handler -> getErrorMessage();
+			} else {
+				$result['data'] = $account;
+				$result['status'] = true;
+				$result ["message"] = '';
+			}
+		} catch (Exception $e) {
+			print_r($e);exit;
+		}	
+		echo json_encode($result);	
+	}	
+
+
+	public static function getAccount($request, $response, $args)   {
+		global $apiConfig;
+		$params = $request -> getParsedBody();
+		$handler = new DrillHandler();
+		$handler -> logger -> addInfo("getAccount - start:".print_r($args,true));
+		$handler -> logger -> addInfo("getAccount - params:".print_r($params,true));
+
+		try {
+			if (($account = $handler -> getAccounts($params)) == false) {
+				$result['data'] = array();
+				$result ["status"] = false;
+				$result ["message"] = $handler -> getErrorMessage();
+			} else {
+				$result['data'] = $account[0];
+				$result['status'] = true;
+				$result ["message"] = '';
+			}
+		} catch (Exception $e) {
+			print_r($e);exit;
+		}	
+		echo json_encode($result);	
 	}	
 
 	public static function saveDrillTag($request, $response, $args)   {
@@ -367,6 +439,16 @@ class ApiHandler {
 			print_r($e);exit;
 		}	
 		echo json_encode($result);	
+	}
+
+	private static function authenticate($request) {
+		global $handler;
+
+		$guid = $request->getHeader('GUID');
+		if (is_array($guid) && count($guid)>0){
+			$handler -> setToken($guid[0]);
+		}
+
 	}
 
 }
