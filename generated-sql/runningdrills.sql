@@ -43,7 +43,8 @@ CREATE TABLE "rungroup_account"
     "rungroup_account_pk" serial NOT NULL,
     "account_fk" INTEGER NOT NULL,
     "rungroup_fk" INTEGER NOT NULL,
-    PRIMARY KEY ("rungroup_account_pk")
+    PRIMARY KEY ("rungroup_account_pk"),
+    CONSTRAINT "idx_account_rungroup" UNIQUE ("account_fk","rungroup_fk")
 );
 
 -----------------------------------------------------------------------

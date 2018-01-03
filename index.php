@@ -33,6 +33,9 @@ $handler = new DrillHandler();
 //exit("hier"); 
 $handler-> logger -> addInfo("server:".print_r($_SERVER,true));
 
+//print_r($_SERVER);
+//exit("oke");
+
 
 // Access-Control headers are received during OPTIONS requests
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
@@ -101,6 +104,7 @@ $app->get('/intervaltimes/', '\ApiHandler:getIntervalTimes');
 
 
 $app->get('/import', '\ApiHandler:importSessionDrills');
+$app->get('/events', '\ApiHandler:getEvents');
 
 $app->post('/drilltag', '\ApiHandler:saveDrillTag');
 

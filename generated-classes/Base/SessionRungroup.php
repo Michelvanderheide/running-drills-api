@@ -1236,7 +1236,7 @@ abstract class SessionRungroup implements ActiveRecordInterface
      */
     public function getSession(ConnectionInterface $con = null)
     {
-        if ($this->aSession === null && ($this->session_fk !== null)) {
+        if ($this->aSession === null && ($this->session_fk != 0)) {
             $this->aSession = ChildSessionQuery::create()->findPk($this->session_fk, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1287,7 +1287,7 @@ abstract class SessionRungroup implements ActiveRecordInterface
      */
     public function getRungroup(ConnectionInterface $con = null)
     {
-        if ($this->aRungroup === null && ($this->rungroup_fk !== null)) {
+        if ($this->aRungroup === null && ($this->rungroup_fk != 0)) {
             $this->aRungroup = ChildRungroupQuery::create()->findPk($this->rungroup_fk, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference

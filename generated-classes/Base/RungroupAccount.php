@@ -1158,7 +1158,7 @@ abstract class RungroupAccount implements ActiveRecordInterface
      */
     public function getAccount(ConnectionInterface $con = null)
     {
-        if ($this->aAccount === null && ($this->account_fk !== null)) {
+        if ($this->aAccount === null && ($this->account_fk != 0)) {
             $this->aAccount = ChildAccountQuery::create()->findPk($this->account_fk, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1209,7 +1209,7 @@ abstract class RungroupAccount implements ActiveRecordInterface
      */
     public function getRungroup(ConnectionInterface $con = null)
     {
-        if ($this->aRungroup === null && ($this->rungroup_fk !== null)) {
+        if ($this->aRungroup === null && ($this->rungroup_fk != 0)) {
             $this->aRungroup = ChildRungroupQuery::create()->findPk($this->rungroup_fk, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference

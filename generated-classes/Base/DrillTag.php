@@ -1158,7 +1158,7 @@ abstract class DrillTag implements ActiveRecordInterface
      */
     public function getTag(ConnectionInterface $con = null)
     {
-        if ($this->aTag === null && ($this->tag_fk !== null)) {
+        if ($this->aTag === null && ($this->tag_fk != 0)) {
             $this->aTag = ChildTagQuery::create()->findPk($this->tag_fk, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1209,7 +1209,7 @@ abstract class DrillTag implements ActiveRecordInterface
      */
     public function getDrill(ConnectionInterface $con = null)
     {
-        if ($this->aDrill === null && ($this->drill_fk !== null)) {
+        if ($this->aDrill === null && ($this->drill_fk != 0)) {
             $this->aDrill = ChildDrillQuery::create()->findPk($this->drill_fk, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference

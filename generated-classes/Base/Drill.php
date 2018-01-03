@@ -1661,7 +1661,7 @@ abstract class Drill implements ActiveRecordInterface
      */
     public function getCategory(ConnectionInterface $con = null)
     {
-        if ($this->aCategory === null && ($this->category_fk !== null)) {
+        if ($this->aCategory === null && ($this->category_fk != 0)) {
             $this->aCategory = ChildCategoryQuery::create()->findPk($this->category_fk, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference

@@ -173,6 +173,21 @@ class DrillHandler {
 		
 	}
 
+
+	public function getEvents() {
+		$events = array();
+		if (is_array($this -> trainingSessions)) {
+			foreach ($this -> trainingSessions as $trainingSession) {
+				$event['title'] = $trainingSession['name'];
+				$event['startTime'] = $trainingSession['date'].' 19:00';
+				$event['endTime'] = $trainingSession['date'].' 20:30';
+				$event['allDay'] = false;
+				$events[] = $event;
+			}
+		}
+		return $events;
+	}
+
 	/**
 	 * get a list of products in a dossier
 	 * @param filter: array the dossierFK

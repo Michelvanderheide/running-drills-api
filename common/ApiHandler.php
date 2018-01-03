@@ -441,6 +441,31 @@ class ApiHandler {
 		echo json_encode($result);	
 	}
 
+	public static function getEvents($request, $response, $args) {
+		global $handler,  $apiConfig;
+
+		$handler -> logger -> addInfo("getEvents - start");
+		
+		$params = $request -> getParsedBody();
+		try {
+
+			if (($events = $handler -> getEvents()) == false) {
+				$result['data'] = array();
+				$result ["status"] = false;
+				$result ["message"] = $handler -> getErrorMessage();
+			} else {
+				$result['data'] = $events;
+				$result['status'] = true;
+				$result ["message"] = '';
+			}
+		} catch (Exception $e) {
+			print_r($e);exit;
+		}
+
+		$handler -> logger -> addInfo("getEvents - done");
+		echo json_encode($result);
+	}
+
 	private static function authenticate($request) {
 		global $handler;
 
