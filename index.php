@@ -27,6 +27,7 @@ require_once 'Middleware/AuthMiddleware.php';
 require_once 'common/common.php';
 require_once 'common/DrillHandler.php';
 require_once 'common/ApiHandler.php';
+require_once 'common/GoogleClient.php';
 
 
 $handler = new DrillHandler();

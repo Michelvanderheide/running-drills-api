@@ -90,7 +90,7 @@ class DrillHandler {
 	var $token = false;
 	var $authenticated = false;
 	var $user = false;
-	var $drills, $trainingSessions;
+	var $drills, $trainingSessions, $googleClient;
 
 	/**
 	 * Constructor
@@ -103,6 +103,7 @@ class DrillHandler {
 		$this -> logger = new Logger('DrillHandler');
 		$this -> logger -> pushHandler(new StreamHandler( $apiConfig['logpath'].'/RunningDrills.log', Logger::INFO));
 		$this -> logger -> addInfo("Starting DrillHandler...");
+		$this -> googleClient = new GoogleClient();
 
 		//$this -> readCsvData();
 		//$this -> readCsvSessionData();
@@ -173,19 +174,73 @@ class DrillHandler {
 		
 	}
 
-
 	public function getEvents() {
 		$events = array();
-		if (is_array($this -> trainingSessions)) {
-			foreach ($this -> trainingSessions as $trainingSession) {
-				$event['title'] = $trainingSession['name'];
-				$event['startTime'] = $trainingSession['date'].' 19:00';
-				$event['endTime'] = $trainingSession['date'].' 20:30';
+
+		$googleEvents = $this -> googleClient -> getUpcomingEvents();
+		foreach($googleEvents as $googleEvent) {
+			$event['title'] = utf8_encode($googleEvent -> summary);
+			if ($googleEvent -> start -> date) {
+				$event['startTime'] = $googleEvent -> start -> date;
+				$event['endTime'] = $googleEvent -> end -> date;
+				$event['allDay'] = true;
+				$event['details'] = $googleEvent -> description;
+			} else {
+				$event['startTime'] = str_replace("T", ' ', substr($googleEvent -> start -> dateTime, 0, 16));
+				$event['endTime'] = str_replace("T", ' ', substr($googleEvent -> end -> dateTime, 0, 16));
 				$event['allDay'] = false;
-				$events[] = $event;
+				$event['details'] = utf8_encode($googleEvent -> description);
+				if ($this -> eventIsTraining($googleEvent)) {
+					//exit();
+					$date = substr($googleEvent -> start -> dateTime,0,10);
+					// create trainingsession (if not already exist)
+					if (!$this -> getTrainingSessionByDate($date)) {
+						$session['date'] = $date;
+						$session['name'] = $event['title'];
+						$session['description'] = $event['details'];
+						$this -> createTrainingSession($session);
+					}
+				}	
+				//print_r($googleEvent)exit;
+			}
+			$events[] = $event;			
+		}
+		//print_r($events);exit;
+		return $events;
+	}
+
+	private function eventIsTraining($googleEvent) {
+		if ($googleEvent -> colorId == 9) {
+			return true;
+		}
+		return false;
+	}
+
+	private function getTrainingSessionByDate($date) {
+		foreach ($this -> trainingSessions as $trainingsession) {
+			if ($trainingsession['date'] == $date) {
+				return $trainingsession;
 			}
 		}
-		return $events;
+		return false;
+	}
+
+	private function createTrainingSession($sess, $rungroup=3) {
+		$session = new Session();
+		$session -> setSessionDate($sess['date']);
+		$session -> setSessionName($sess['name']);
+		$session -> setSessionDescriptionHtml($sess['description']);
+		$session -> save();
+		$sessionRungroup = new SessionRungroup();
+		$sessionRungroup -> setSessionFk($session -> getSessionPk());
+		$sessionRungroup -> setRungroupFk($rungroup);
+		$sessionRungroup -> save();
+
+		$sessionDrill = new SessionDrill();
+		$sessionDrill -> setSessionFk($session -> getSessionPk());
+		$sessionDrill -> setDrillFk(1); //inlopen
+		$sessionDrill -> setSortOrder(1); //inlopen
+		$sessionDrill -> save();
 	}
 
 	/**
@@ -202,7 +257,8 @@ class DrillHandler {
 
 		$query -> join('Session.SessionRungroup');
 		$query -> join('SessionRungroup.Rungroup');
-		$query -> orderBySessionPk();
+		//$query -> orderBySessionPk();
+		$query -> orderBySessionDate($order = Criteria::DESC);
 		$sessions = $query -> find() -> toArray();
 		//print_r($sessions);
 		foreach($sessions as $session) {
@@ -645,6 +701,7 @@ class DrillHandler {
 	public function getRungroups() {
 
 
+		$setInitial = false;
 		$accountPk = -1;
 		if ($this -> user) {
 			$accountPk = $this -> user['AccountPk'];
@@ -659,7 +716,7 @@ class DrillHandler {
 		$result = array();
 		foreach($groups as $i => $group) {
 			$active = ($group['account_fk'] !== null);
-			if ($accountPk == -1 && ($group['rungroup_pk'] == 3 || $group['rungroup_pk']==9999)){
+			if ($setInitial && $accountPk == -1 && ($group['rungroup_pk'] == 3 || $group['rungroup_pk']==9999)){
 				$active = true;
 			}
 			$result[] = array('RungroupPk' => $group['rungroup_pk'], 'RungroupName' => $group['rungroup_name'], 'Active' => $active);
@@ -738,6 +795,10 @@ class DrillHandler {
 		return $result;
 	}
 
+
+	public function testAPI() {
+		$this -> googleClient ->test();
+	}
 
 
 
