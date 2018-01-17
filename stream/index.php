@@ -18,9 +18,11 @@ if ($_GET['create']) {
       if ($pathinfo['extension'] == 'mov') {
 
          $mp4video = $videodir.'/'.basename($video, '.mov').".mp4";
+         $mov = $videodir.'/'.$video;
          if (!file_exists($mp4video)) {
-            $cmd = "ffmpeg -i ".$videodir.'/'.$video." -vcodec -strict -c  copy ".$mp4video;
+            $cmd = "ffmpeg -i ".$mov." -vcodec -strict -c  copy ".$mp4video;
             shell_exec($cmd);
+            $image = $imagedir.'/'.basename($video, '.mov').'-1.png';
          }
       }
       
@@ -29,6 +31,7 @@ if ($_GET['create']) {
 			$cmd = "ffmpeg -i $videofile -r 1 -f image2 $image";
 			echo "\nCreate image:".$cmd;
 			shell_exec($cmd);
+         unlink($mov);
 		} else {
 			echo "\n image exists:".$image;
 		}
