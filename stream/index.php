@@ -24,9 +24,15 @@ if ($_GET['create']) {
 		}
 	}
 } else if ($_GET['id']) {
+   $type = 'mp4';
 	$filepath = $videodir.'/'.$_GET['id'].'.mp4';
-	$stream = new VideoStream($filepath);
-	$stream -> start();
+   $stream = new VideoStream($filepath);
+   if (!file_exists($filepath)) {
+      $filepath = $videodir.'/'.$_GET['id'].'.mov';
+      $type = 'mov';
+   }
+	$stream -> start($type);
+   exit($filepath);
 	//exit($filepath);
 }
 
