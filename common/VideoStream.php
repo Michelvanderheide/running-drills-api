@@ -20,7 +20,7 @@ class VideoStream
     private function open()
     {
         if (!($this->stream = fopen($this->path, 'rb'))) {
-            die('Could not open stream for reading');
+            die('Could not open stream for reading:'.$this-> path);
         }
 
     }
