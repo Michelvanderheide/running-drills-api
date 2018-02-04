@@ -369,10 +369,10 @@ class DrillHandler {
 		$drillObject -> save();
 
 		$drillPk = $drillObject  -> getDrillPk();
-		$this -> logger -> ("drillObject: 3:".$drillPk);
+		$this -> logger -> addInfo("drillObject: 3:".$drillPk);
 
 		$tags = $drill['tags'];
-		$this -> logger -> ("new tags:".print_r($tags,true));
+		$this -> logger -> addInfo("new tags:".print_r($tags,true));
 
 		foreach($tags as $tag) {
 			$drillTag = new DrillTag();
@@ -388,7 +388,7 @@ class DrillHandler {
 		//$drillObject -> setId($drillPk);
 		$drillObject -> save();	
 
-		$this -> logger -> ("createDrill.drill result:".$drillPk);	
+		$this -> logger -> addInfo("createDrill.drill result:".$drillPk);	
 
 		$sessionDrill = new SessionDrill();
 		$sessionDrill -> setSessionFk(1);
