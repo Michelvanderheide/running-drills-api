@@ -23,7 +23,7 @@ if ($_GET['create']) {
 
       $tags = array();
       if (($tagid = getTagFromId($video)) !== false) {
-         $tags = array('TagPk' => $tagid);
+         $tags[] = array('TagPk' => $tagid);
          $oldvideo = $video;
          $video = substr($video, 1);
          print($videodir.'/'.$oldvideo ."  ::  ". $videodir.'/'.$video);
