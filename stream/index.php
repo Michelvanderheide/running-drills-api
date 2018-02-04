@@ -26,7 +26,7 @@ if ($_GET['create']) {
          $oldvideo = $video;
          $video = substr($video, 1);
          print($videodir.'/'.$oldvideo ."  ::  ". $videodir.'/'.$video);
-         exit;
+         //exit;
          rename($videodir.'/'.$oldvideo, $videodir.'/'.$video);
       }
 
