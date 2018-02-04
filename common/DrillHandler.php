@@ -350,7 +350,7 @@ class DrillHandler {
 	}
 	
 	public function createDrill($drill) {
-
+print_r("create drill:".print_r($drill, true));
 		$this -> logger -> addInfo("createDrill.drill:".print_r($drill,true));
 
 		$drillObject = new Drill();
