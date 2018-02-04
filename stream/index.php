@@ -64,7 +64,7 @@ if ($_GET['create']) {
 function getTagFromId($id) {
    $tagid = false;
    $tags = array( 'K' => 2, 'L' => 3, 'H' => 4);
-   $key = strtoupper(subsctr($id,0,1));
+   $key = strtoupper(substr($id,0,1));
    if (isset($tags[$key])) {
       $tagid = $tags[$key];
    }
