@@ -96,7 +96,7 @@ function createImageFromVideo($image, $video) {
 }
 
 function createDrill($id, $tags) {
-   $drill = array("drillPk" => $id, 'tags' => $tags, 'title' => 'nieuwe oefening', 'description' => 'nieuwe oefening');
+   $drill = array("id" => $id, 'tags' => $tags, 'title' => 'nieuwe oefening', 'description' => 'nieuwe oefening');
 
    $handler = new DrillHandler();
    $handler -> createDrill($drill);

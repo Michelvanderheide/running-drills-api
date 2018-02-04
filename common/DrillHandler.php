@@ -350,14 +350,14 @@ class DrillHandler {
 	}
 	
 	public function createDrill($drill) {
-print_r("create drill:".print_r($drill, true));
+//print_r("create drill:".print_r($drill, true));
 		$this -> logger -> addInfo("createDrill.drill:".print_r($drill,true));
 
 		$drillObject = new Drill();
 		$result = array();
 
-		if (isset($drill['drillPk'])) {
-			//$drillObject -> setDrillPk($drill['drillPk']);
+		if (isset($drill['id'])) {
+			$drillObject -> setId($drill['id']);
 		}
 		$this -> logger -> addInfo("drillObject:".print_r($drillObject,true));
 		$drillObject -> setDrillTitle($drill['title']);
@@ -369,17 +369,15 @@ print_r("create drill:".print_r($drill, true));
 		$drillObject -> save();
 
 		$drillPk = $drillObject  -> getDrillPk();
-		print("drillObject: 3:".$drillPk);
+		$this -> logger -> ("drillObject: 3:".$drillPk);
 
 		$tags = $drill['tags'];
-		print("new tags:".print_r($tags,true));
+		$this -> logger -> ("new tags:".print_r($tags,true));
 
 		foreach($tags as $tag) {
 			$drillTag = new DrillTag();
 			$drillTag -> setDrillFk(intval($drillPk));
 			$drillTag -> setTagFk(intval($tag['TagPk']));
-			var_dump($tag);
-			var_dump($drillTag);
 			$drillTag -> save();
 
 			if ($tag['TagPk'] < 8) {
@@ -387,10 +385,10 @@ print_r("create drill:".print_r($drill, true));
 							
 			}
 		}
-		$drillObject -> setId($drillPk);
+		//$drillObject -> setId($drillPk);
 		$drillObject -> save();	
 
-		print("createDrill.drill result:".$drillPk);	
+		$this -> logger -> ("createDrill.drill result:".$drillPk);	
 
 		$sessionDrill = new SessionDrill();
 		$sessionDrill -> setSessionFk(1);
