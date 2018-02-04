@@ -365,7 +365,7 @@ print_r("create drill:".print_r($drill, true));
 		$drillObject -> setDrillDescription($drill['description']);
 		$this -> logger -> addInfo("drillObject: 2");
 
-		$drillObject -> setCategoryFk(8);	
+		$drillObject -> setCategoryFk(3);	
 		$drillObject -> save();
 
 		$drillPk = $drillObject  -> getDrillPk();
