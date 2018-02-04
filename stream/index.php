@@ -1,5 +1,6 @@
 <pre>
 <?php
+set_include_path('../');
 
 require_once 'vendor/autoload.php';
 require_once 'config.php';
