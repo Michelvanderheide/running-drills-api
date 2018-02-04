@@ -6,6 +6,7 @@ require_once 'vendor/autoload.php';
 require_once 'config.php';
 require_once 'generated-conf/config.php';
 require_once 'common/DrillHandler.php';
+require_once 'common/GoogleClient.php';
 
 
 //echo "Streaming..".__DIR__;exit;
