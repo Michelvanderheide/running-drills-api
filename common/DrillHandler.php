@@ -357,7 +357,7 @@ print_r("create drill:".print_r($drill, true));
 		$result = array();
 
 		if (isset($drill['drillPk'])) {
-			$drillObject -> setDrillPk($drill['drillPk']);
+			//$drillObject -> setDrillPk($drill['drillPk']);
 		}
 		$this -> logger -> addInfo("drillObject:".print_r($drillObject,true));
 		$drillObject -> setDrillTitle($drill['title']);
