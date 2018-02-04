@@ -356,6 +356,9 @@ class DrillHandler {
 		$drillObject = new Drill();
 		$result = array();
 
+		if (isset($drill['drillPk'])) {
+			$drillObject -> setDrillPk($drill['drillPk']);
+		}
 		$this -> logger -> addInfo("drillObject:".print_r($drillObject,true));
 		$drillObject -> setDrillTitle($drill['title']);
 		$this -> logger -> addInfo("drillObject: 1");
