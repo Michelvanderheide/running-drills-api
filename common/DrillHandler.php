@@ -378,6 +378,8 @@ print_r("create drill:".print_r($drill, true));
 			$drillTag = new DrillTag();
 			$drillTag -> setDrillFk(intval($drillPk));
 			$drillTag -> setTagFk(intval($tag['TagPk']));
+			var_dump($tag);
+			var_dump($drillTag);
 			$drillTag -> save();
 
 			if ($tag['TagPk'] < 8) {
