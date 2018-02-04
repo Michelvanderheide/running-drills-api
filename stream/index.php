@@ -25,7 +25,8 @@ if ($_GET['create']) {
          $tags = array('TagPk' => $tagid);
          $oldvideo = $video;
          $video = substr($video, 1);
-         print($videodir.'/'.$oldvideo ."  ::  ". $videodir.'/'.$video);exit;
+         print($videodir.'/'.$oldvideo ."  ::  ". $videodir.'/'.$video);
+         exit;
          rename($videodir.'/'.$oldvideo, $videodir.'/'.$video);
       }
 
@@ -39,10 +40,11 @@ if ($_GET['create']) {
          $image = $imagedir.'/'.basename($video, '.mp4').'-1.png';
       }
       
-      var_dump($image);
-      var_dump($video);
+      //var_dump($image);
+      print_r($tags);
 		if (!file_exists($image)) {
          createImageFromVideo($video);
+         createDrill($id, $tags) ;
 		} else {
 			echo "\n image exists:".$image;
 		}
