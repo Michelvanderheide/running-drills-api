@@ -43,7 +43,7 @@ if ($_GET['create']) {
       //var_dump($image);
       print_r($tags);
 		if (!file_exists($image)) {
-         createImageFromVideo($video);
+         createImageFromVideo($image, $video);
          createDrill($id, $tags) ;
 		} else {
 			echo "\n image exists:".$image;
@@ -85,9 +85,9 @@ function createVideoFromMovie($movie) {
    }
 }
 
-function createImageFromVideo($video) {
+function createImageFromVideo($image, $video) {
    global $videodir;
-   $handler = new DrillHandler();
+
    $videofile = $videodir.'/'.$video;
    $cmd = "ffmpeg -i $videofile -r 1 -f image2 $image";
    echo "\nCreate image:".$cmd;
