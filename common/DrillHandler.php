@@ -368,7 +368,7 @@ class DrillHandler {
 
 
 		if (isset($drill['hasvideo'])) {
-			$drillObject -> setDrillVideo($apiConfig['videoUrl'].$drill['id'].'mp4');
+			$drillObject -> setDrillVideo($apiConfig['videoUrl'].$drill['id'].'.mp4');
 		}
 		$drillObject -> setCategoryFk(3);	
 		$drillObject -> save();
