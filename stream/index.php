@@ -58,6 +58,8 @@ if ($_GET['create']) {
 	$stream -> start($type);
    exit($filepath);
 	//exit($filepath);
+} else if ($_GET['importcsv']) {
+   importcsv();
 }
 
 function getTagFromId($id) {
@@ -96,6 +98,29 @@ function createDrill($id, $tags) {
 
    $handler = new DrillHandler();
    $handler -> createDrill($drill);
+}
+
+function importcsv() {
+   global $apiConfig;
+
+   $handler = new DrillHandler();
+   $file = $apiConfig['basedir'].'/drills.csv';
+   echo "<pre>";
+   echo $file."\n";
+   $rows = file($file);
+   foreach($rows as $row) {
+      $id = $row[0];
+      $title = $row[1];
+      $description = $row[2];
+      if ($id && $title && $description) {
+         echo 'save'."\n";
+         $drill = $handler -> getDrillByPk($id);
+         $drill -> setTitle($title);
+         $drill -> setDescription($description);
+         $drill -> save();
+      }
+   }
+   echo 'done';
 }
 
 function dirToArray($dir) { 
