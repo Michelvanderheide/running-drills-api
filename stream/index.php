@@ -103,7 +103,6 @@ function createDrill($id, $tags) {
 function importcsv() {
    global $apiConfig;
 
-   $handler = new DrillHandler();
    $file = $apiConfig['basedir'].'/drills.csv';
    echo "<pre>";
    echo $file."\n";
@@ -115,11 +114,12 @@ function importcsv() {
          $title = $cols[1];
          $description = $cols[2];
          if ($id > 0 && $title && $description) {
-            echo 'save'."\n";
-            $drill = $handler -> getDrillByPk($id);
-            $drill -> setDrillTitle($title);
-            $drill -> setDrillDescription($description);
-            $drill -> save();
+            echo "save $id $title"."\n";
+            $query = new DrillQuery();
+            $drillObject = $query->findPK($id);
+            $drillObject -> setDrillTitle($title);
+            $drillObject -> setDrillDescription($description);
+            $drillObject -> save();
          }
       }      
    }
