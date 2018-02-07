@@ -26,8 +26,6 @@ if ($_GET['create']) {
          $tags[] = array('TagPk' => $tagid);
          $oldvideo = $video;
          $video = substr($video, 1);
-         print($videodir.'/'.$oldvideo ."  ::  ". $videodir.'/'.$video);
-         //exit;
          rename($videodir.'/'.$oldvideo, $videodir.'/'.$video);
       }
 
@@ -41,8 +39,6 @@ if ($_GET['create']) {
          $image = $imagedir.'/'.basename($video, '.mp4').'-1.png';
       }
       
-      //var_dump($image);
-      print_r($tags);
 		if (!file_exists($image)) {
          createImageFromVideo($image, $video);
          createDrill($id, $tags) ;
@@ -96,7 +92,7 @@ function createImageFromVideo($image, $video) {
 }
 
 function createDrill($id, $tags) {
-   $drill = array("id" => $id, 'tags' => $tags, 'title' => 'nieuwe oefening', 'description' => 'nieuwe oefening');
+   $drill = array("id" => $id, 'tags' => $tags, 'title' => 'nieuwe oefening', 'description' => 'nieuwe oefening', 'hasvideo' => true);
 
    $handler = new DrillHandler();
    $handler -> createDrill($drill);

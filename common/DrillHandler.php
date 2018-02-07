@@ -350,6 +350,7 @@ class DrillHandler {
 	}
 	
 	public function createDrill($drill) {
+		global $apiConfig;
 //print_r("create drill:".print_r($drill, true));
 		$this -> logger -> addInfo("createDrill.drill:".print_r($drill,true));
 
@@ -365,6 +366,10 @@ class DrillHandler {
 		$drillObject -> setDrillDescription($drill['description']);
 		$this -> logger -> addInfo("drillObject: 2");
 
+
+		if (isset($drill['hasvideo'])) {
+			$drillObject -> setDrillVideo($apiConfig['videoUrl'].$drill['id'].'mp4');
+		}
 		$drillObject -> setCategoryFk(3);	
 		$drillObject -> save();
 
