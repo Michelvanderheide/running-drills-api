@@ -366,6 +366,9 @@ class DrillHandler {
 		$drillObject -> setDrillDescription($drill['description']);
 		$this -> logger -> addInfo("drillObject: 2");
 
+		if (isset($drill['video'])) {
+			$drillObject -> setDrillVideo($drill['video']);
+		}
 
 		if (isset($drill['hasvideo'])) {
 			$drillObject -> setDrillVideo($apiConfig['videoUrl'].$drill['id'].'.mp4');
@@ -390,7 +393,9 @@ class DrillHandler {
 							
 			}
 		}
-		//$drillObject -> setId($drillPk);
+		if (!isset($drill['id'])) {
+			$drillObject -> setId($drillPk);
+		}
 		$drillObject -> save();	
 
 		$this -> logger -> addInfo("createDrill.drill result:".$drillPk);	

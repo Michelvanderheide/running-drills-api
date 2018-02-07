@@ -113,13 +113,32 @@ function importcsv() {
          $id = $cols[0];
          $title = $cols[1];
          $description = $cols[2];
+         $video = $cols[3];
+         $tags = $cols[4];
          if ($id > 0 && $title && $description) {
             echo "save $id $title"."\n";
             $query = new DrillQuery();
             $drillObject = $query->findPK($id);
             $drillObject -> setDrillTitle($title);
             $drillObject -> setDrillDescription($description);
+            if ($video) {
+               $drillObject -> setDrillVideo($video);
+            }
             $drillObject -> save();
+         } else if ($id == -1  && $title && $description) {
+            $drill = array('title' => $title, 'description' => $description);
+            if ($tags) {
+               $arrtags = explode(',', $tags);
+               foreach($arrtags as $tagid) {
+                  $tagids[] = array('TagPk' => $tagid);
+               }
+               $drill['tags'] = $tagids;
+            }
+            if ($video) {
+               $drill['video'] = $video;
+            }
+            $handler = new DrillHandler();
+            $handler -> createDrill($drill);
          }
       }      
    }
