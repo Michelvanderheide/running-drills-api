@@ -107,19 +107,22 @@ function importcsv() {
    $file = $apiConfig['basedir'].'/drills.csv';
    echo "<pre>";
    echo $file."\n";
-   $rows = file($file);
-   foreach($rows as $row) {
-      $id = $row[0];
-      $title = $row[1];
-      $description = $row[2];
-      if ($id && $title && $description) {
-         echo 'save'."\n";
-         $drill = $handler -> getDrillByPk($id);
-         $drill -> setTitle($title);
-         $drill -> setDescription($description);
-         $drill -> save();
-      }
+   if (file_exists($file)) {
+      $rows = file($file);
+      foreach($rows as $row) {
+         $id = $row[0];
+         $title = $row[1];
+         $description = $row[2];
+         if ($id && $title && $description) {
+            echo 'save'."\n";
+            $drill = $handler -> getDrillByPk($id);
+            $drill -> setDrillTitle($title);
+            $drill -> setDrillDescription($description);
+            $drill -> save();
+         }
+      }      
    }
+
    echo 'done';
 }
 
