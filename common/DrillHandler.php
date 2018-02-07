@@ -611,7 +611,7 @@ class DrillHandler {
 			$drill['descriptionHtml'] = $this -> toHTML($values['DrillDescription']);
 			$drill['drillIdx'] = $drillIdx+1;
 			$drill['group'] = $values['CategoryName'];
-			$drill['id'] = $values['DrillId'];
+			$drill['id'] = $values['DrillPk'];
 
 			$drill['imgUrl'] = '';
 			$filename = strtolower($drill['id'].'.png');
