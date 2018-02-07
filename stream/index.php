@@ -110,10 +110,11 @@ function importcsv() {
    if (file_exists($file)) {
       $rows = file($file);
       foreach($rows as $row) {
-         $id = $row[0];
-         $title = $row[1];
-         $description = $row[2];
-         if ($id && $title && $description) {
+         $cols = explode(';', $row);
+         $id = $cols[0];
+         $title = $cols[1];
+         $description = $cols[2];
+         if ($id > 0 && $title && $description) {
             echo 'save'."\n";
             $drill = $handler -> getDrillByPk($id);
             $drill -> setDrillTitle($title);
