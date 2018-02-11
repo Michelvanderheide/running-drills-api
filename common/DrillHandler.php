@@ -287,6 +287,16 @@ class DrillHandler {
 
 	}
 
+	public function getDrillSessions() {
+		$result = array();
+		$query = SessionDrillQuery::create();
+		$sessionDrills = $query -> find() -> toArray();	
+		foreach($sessionDrills as $sessionDrill) {
+			$result[$sessionDrill['DrillFk']][] = $sessionDrill['SessionFk'];
+		}
+		return $result;
+	}
+
 	public function saveDrill($drill) {
 
 		$this -> logger -> addInfo(__FUNCTION__."drill:".print_r($drill,true));

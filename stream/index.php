@@ -108,7 +108,7 @@ function importdrills() {
    echo "<pre>";
    echo $file."\n";
 
-   if (($handle = fopen("test.csv", "r")) !== FALSE) {
+   if (($handle = fopen($file, "r")) !== FALSE) {
       while (($cols = fgetcsv($handle, 1000, ",")) !== FALSE) {
          $id = $cols[0];
          $title = $cols[1];
@@ -162,6 +162,7 @@ function exportdrills() {
    //echo "<pre>";
    $rows = array();
    $categories = array(1,2,3,4,5);
+   $sessions = $handler -> getDrillSessions();
    foreach($categories as $catid => $cat) {
       $drills = $handler -> getDrillsForSessionDrills(1, $catid);
       foreach($drills['drills'] as $drill) {
@@ -176,7 +177,11 @@ function exportdrills() {
                $tagids[] = $tags[$tagName]['TagPk'];
             }
          }
-         $row['tags'] =  implode(',', $tagids);
+         $row['tags'] = implode(',', $tagids);
+         $row['sessions'] = '';
+         if (isset($sessions[$row['id']])) {
+            $row['sessions'] = implode(',', $sessions[$drill['id']]);
+         }
          $rows[] = $row;
       }
    }
