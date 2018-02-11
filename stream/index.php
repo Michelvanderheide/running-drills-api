@@ -58,10 +58,10 @@ if ($_GET['create']) {
 	$stream -> start($type);
    exit($filepath);
 	//exit($filepath);
-} else if ($_GET['importcsv']) {
-   importcsv();
-} else if ($_GET['exportcsv']) {
-   exportcsv();
+} else if ($_GET['importdrills']) {
+   importdrills();
+} else if ($_GET['exportdrills']) {
+   exportdrills();
 }
 
 function getTagFromId($id) {
@@ -102,7 +102,7 @@ function createDrill($id, $tags) {
    $handler -> createDrill($drill);
 }
 
-function importcsv() {
+function importdrills() {
    global $apiConfig;
 
    $file = $apiConfig['basedir'].'/drills.csv';
@@ -149,12 +149,32 @@ function importcsv() {
    echo 'done';
 }
 
-function exportcsv() {
+function exportdrills() {
    $handler = new DrillHandler();
-   echo "<pre>";
 
-   $drills = $handler -> getDrillsForSessionDrills(1, 2);
-   print_r($drills);
+   $tags = $handler -> getTags('TagName');
+
+   echo "<pre>";
+   $rows = array();
+   $categories = array(1,2,3,4,5);
+   foreach($categories as $catid => $cat) {
+      $drills = $handler -> getDrillsForSessionDrills(1, $catid);
+      foreach($drills as $drill) {
+         $row['title'] = $drill['title'];
+         $row['description'] = $drill['description'];
+         $row['descriptionHtml'] = $drill['descriptionHtml'];
+         $row['videoUrl'] = $drill['videoUrl'];
+         $tagids = array();
+         foreach($drill['tags'] as $tagName) {
+            if (isset($tags[$tagName])) {
+               $tagids[] = $tags[$tagName]['TagPk'];
+            }
+         }
+         $row['tags'] =  implode(',', $tagids);
+         $rows[] = $row;
+      }
+   }
+   print_r($rows);
 }
 
 function dirToArray($dir) { 
