@@ -1,4 +1,3 @@
-<pre>
 <?php
 set_include_path('../');
 
@@ -185,8 +184,8 @@ function exportcsvfile($filename, $rows, $delimiter=';') {
 
    $f = fopen('php://output', 'w');
 
-   //$fields = array_keys($rows);
-   //fputcsv($f, $fields, $delimiter);
+   $fields = array_keys($rows[0]);
+   fputcsv($f, $fields, $delimiter);
 
    foreach ($rows as $line) {
       //$line = implode(';', $line);
