@@ -159,7 +159,7 @@ function exportdrills() {
    $categories = array(1,2,3,4,5);
    foreach($categories as $catid => $cat) {
       $drills = $handler -> getDrillsForSessionDrills(1, $catid);
-      foreach($drills as $drill) {
+      foreach($drills['drills'] as $drill) {
          $row['title'] = $drill['title'];
          $row['description'] = $drill['description'];
          $row['descriptionHtml'] = $drill['descriptionHtml'];
