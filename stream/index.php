@@ -154,7 +154,7 @@ function exportdrills() {
 
    $tags = $handler -> getTags('TagName');
 
-   echo "<pre>";
+   //echo "<pre>";
    $rows = array();
    $categories = array(1,2,3,4,5);
    foreach($categories as $catid => $cat) {
@@ -176,6 +176,7 @@ function exportdrills() {
    }
    //print_r($rows);
    exportcsvfile("drills.csv", $rows);
+   exit;
 }
 
 function exportcsvfile($filename, $rows, $delimiter=';') {
