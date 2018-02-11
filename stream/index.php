@@ -174,7 +174,22 @@ function exportdrills() {
          $rows[] = $row;
       }
    }
-   print_r($rows);
+   //print_r($rows);
+   exportcsvfile("drills.csv", $rows);
+}
+
+function exportcsvfile($filename, $rows, $delimiter=';') {
+   header('Content-Type: application/csv');
+   header('Content-Disposition: attachment; filename="'.$filename.'";');
+
+   $f = fopen('php://output', 'w');
+
+   $fields = array_keys($rows);
+   fputcsv($f, $fields, $delimiter);
+
+   foreach ($rows as $line) {
+      fputcsv($f, $line, $delimiter);
+   }
 }
 
 function dirToArray($dir) { 
