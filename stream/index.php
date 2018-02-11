@@ -60,6 +60,8 @@ if ($_GET['create']) {
 	//exit($filepath);
 } else if ($_GET['importcsv']) {
    importcsv();
+} else if ($_GET['exportcsv']) {
+   importcsv();
 }
 
 function getTagFromId($id) {
@@ -129,6 +131,7 @@ function importcsv() {
             $drill = array('title' => $title, 'description' => $description);
             if ($tags) {
                $arrtags = explode(',', $tags);
+               $tagids = array();
                foreach($arrtags as $tagid) {
                   $tagids[] = array('TagPk' => $tagid);
                }
@@ -144,6 +147,14 @@ function importcsv() {
    }
 
    echo 'done';
+}
+
+function exportcsv() {
+   $handler = new DrillHandler();
+   echo "<pre>";
+
+   $drills = $handler -> getDrillsForSessionDrills(1, 2);
+   print_r($drills);
 }
 
 function dirToArray($dir) { 
