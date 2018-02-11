@@ -105,23 +105,26 @@ function importdrills() {
    global $apiConfig;
 
    $file = $apiConfig['basedir'].'/drills.csv';
-   //echo "<pre>";
+   echo "<pre>";
    echo $file."\n";
-   if (file_exists($file)) {
-      $rows = file($file);
-      foreach($rows as $row) {
-         $cols = explode(';', $row);
+
+   if (($handle = fopen("test.csv", "r")) !== FALSE) {
+      while (($cols = fgetcsv($handle, 1000, ",")) !== FALSE) {
          $id = $cols[0];
          $title = $cols[1];
          $description = $cols[2];
-         $video = $cols[3];
-         $tags = $cols[4];
+         $descriptionHtml = $cols[3];
+         $video = $cols[4];
+         $tags = $cols[5];
          if ($id > 0 && $title && $description) {
             echo "save $id $title"."\n";
             $query = new DrillQuery();
             $drillObject = $query->findPK($id);
             $drillObject -> setDrillTitle($title);
             $drillObject -> setDrillDescription($description);
+            if ($descriptionHtml) {
+               $drillObject -> setDrillDescriptionHtml($descriptionHtml);
+            }            
             if ($video) {
                $drillObject -> setDrillVideo($video);
             }
@@ -129,22 +132,25 @@ function importdrills() {
          } else if ($id == -1  && $title && $description) {
             $drill = array('title' => $title, 'description' => $description);
             if ($tags) {
-               $arrtags = explode(';', $tags);
+               $arrtags = explode(',', $tags);
                $tagids = array();
                foreach($arrtags as $tagid) {
                   $tagids[] = array('TagPk' => $tagid);
                }
                $drill['tags'] = $tagids;
             }
+            if ($descriptionHtml) {
+               $drill['descriptionHtml'] = $descriptionHtml;
+            }              
             if ($video) {
                $drill['video'] = $video;
             }
             $handler = new DrillHandler();
             $handler -> createDrill($drill);
          }
-      }      
+      }
+      fclose($handle);
    }
-
    echo 'done';
 }
 
@@ -159,6 +165,7 @@ function exportdrills() {
    foreach($categories as $catid => $cat) {
       $drills = $handler -> getDrillsForSessionDrills(1, $catid);
       foreach($drills['drills'] as $drill) {
+         $row['id'] = $drill['id'];
          $row['title'] = $drill['title'];
          $row['description'] = $drill['description'];
          $row['descriptionHtml'] = $drill['descriptionHtml'];
@@ -169,7 +176,7 @@ function exportdrills() {
                $tagids[] = $tags[$tagName]['TagPk'];
             }
          }
-         $row['tags'] =  implode(';', $tagids);
+         $row['tags'] =  implode(',', $tagids);
          $rows[] = $row;
       }
    }
