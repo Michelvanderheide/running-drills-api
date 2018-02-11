@@ -61,7 +61,7 @@ if ($_GET['create']) {
 } else if ($_GET['importcsv']) {
    importcsv();
 } else if ($_GET['exportcsv']) {
-   importcsv();
+   exportcsv();
 }
 
 function getTagFromId($id) {
