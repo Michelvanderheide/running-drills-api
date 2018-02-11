@@ -185,8 +185,8 @@ function exportcsvfile($filename, $rows, $delimiter=';') {
 
    $f = fopen('php://output', 'w');
 
-   $fields = array_keys($rows);
-   fputcsv($f, $fields, $delimiter);
+   //$fields = array_keys($rows);
+   //fputcsv($f, $fields, $delimiter);
 
    foreach ($rows as $line) {
       fputcsv($f, $line, $delimiter);
