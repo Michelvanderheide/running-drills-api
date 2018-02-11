@@ -106,7 +106,7 @@ function importdrills() {
    global $apiConfig;
 
    $file = $apiConfig['basedir'].'/drills.csv';
-   echo "<pre>";
+   //echo "<pre>";
    echo $file."\n";
    if (file_exists($file)) {
       $rows = file($file);
@@ -189,7 +189,7 @@ function exportcsvfile($filename, $rows, $delimiter=';') {
    //fputcsv($f, $fields, $delimiter);
 
    foreach ($rows as $line) {
-      $line = implode(';', $line);
+      //$line = implode(';', $line);
       fputcsv($f, $line, $delimiter);
    }
 }
