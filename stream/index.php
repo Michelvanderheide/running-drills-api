@@ -129,7 +129,7 @@ function importdrills() {
          } else if ($id == -1  && $title && $description) {
             $drill = array('title' => $title, 'description' => $description);
             if ($tags) {
-               $arrtags = explode(',', $tags);
+               $arrtags = explode(';', $tags);
                $tagids = array();
                foreach($arrtags as $tagid) {
                   $tagids[] = array('TagPk' => $tagid);
@@ -169,7 +169,7 @@ function exportdrills() {
                $tagids[] = $tags[$tagName]['TagPk'];
             }
          }
-         $row['tags'] =  implode(',', $tagids);
+         $row['tags'] =  implode(';', $tagids);
          $rows[] = $row;
       }
    }
@@ -178,7 +178,7 @@ function exportdrills() {
    exit;
 }
 
-function exportcsvfile($filename, $rows, $delimiter=';') {
+function exportcsvfile($filename, $rows, $delimiter=',') {
    header('Content-Type: application/csv');
    header('Content-Disposition: attachment; filename="'.$filename.'";');
 
