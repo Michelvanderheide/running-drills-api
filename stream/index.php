@@ -116,6 +116,7 @@ function importdrills() {
          $descriptionHtml = $cols[3];
          $video = $cols[4];
          $tags = $cols[5];
+         $sessions = $cols[6];
          if ($id > 0 && $title && $description) {
             echo "save $id $title"."\n";
             $query = new DrillQuery();
@@ -129,6 +130,19 @@ function importdrills() {
                $drillObject -> setDrillVideo($video);
             }
             $drillObject -> save();
+
+            if ($sessions) {
+               $arrsessions = explode(',', $sessions);
+               $sessionids = array();
+               $i = 1;
+               foreach($arrsessions as $sessionid) {
+                  $sessiondrill = new SessionDrill();
+                  $sessiondrill -> setSessionFk($sessionid);
+                  $sessiondrill -> setDrillFk($id);
+                  $sessiondrill -> setSortOrder(1);
+                  $sessiondrill -> save();
+               }
+            }
          } else if ($id == -1  && $title && $description) {
             $drill = array('title' => $title, 'description' => $description);
             if ($tags) {
