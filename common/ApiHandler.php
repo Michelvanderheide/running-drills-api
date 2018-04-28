@@ -466,6 +466,43 @@ class ApiHandler {
 		echo json_encode($result);
 	}
 
+	public static function getRemoteContent() {
+		// Recognizing with English language to rtf
+		// You can use combination of languages like ?language=english,russian or
+		// ?language=english,french,dutch
+		// For details, see API reference for processImage method
+		$url = 'http://www.kettinglopers.nl/index.php/training/24-04-2018/';
+
+		// Send HTTP POST request and ret xml response
+		$curlHandle = curl_init();
+		curl_setopt($curlHandle, CURLOPT_URL, $url);
+		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curlHandle, CURLOPT_FAILONERROR, true);
+		$response = curl_exec($curlHandle);
+		if ($response == FALSE) {
+			$result['data'] = array();
+			$result ["status"] = false;
+			$result ["message"] = curl_error($curlHandle);
+		} else {
+			$xml = simplexml_load_string($response);
+			$result['data'] = $xml;
+			$result ["status"] = true;
+			$result ["message"] = curl_error($curlHandle);		
+		}
+		$httpCode = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
+		curl_close($curlHandle);
+
+/*		// Parse xml response
+		$xml = simplexml_load_string($response);
+		if($httpCode != 200) {
+		if(property_exists($xml, "message")) {
+		die($xml->message);
+		}
+		die("unexpected response ".$response);
+		}*/
+
+	}
+
 	private static function authenticate($request) {
 		global $handler;
 

@@ -107,6 +107,8 @@ $app->get('/intervaltimes/', '\ApiHandler:getIntervalTimes');
 $app->get('/import', '\ApiHandler:importSessionDrills');
 $app->get('/events', '\ApiHandler:getEvents');
 
+$app->get('/content', '\ApiHandler:getRemoteContent');
+
 $app->post('/drilltag', '\ApiHandler:saveDrillTag');
 
 $app->post('/login', '\ApiHandler:getAccount');
