@@ -100,6 +100,7 @@ $app->post('/drills/{id}', '\ApiHandler:saveDrillAssets');
 $app->delete('/drills/{id}', '\ApiHandler:deleteDrill');
 
 $app->post('/session/', '\ApiHandler:saveTrainingSession');
+$app->post('/sessiondrills/', '\ApiHandler:saveSessionDrills');
 
 
 $app->get('/athletetimes/', '\ApiHandler:getAthleteTimes');
