@@ -99,6 +99,8 @@ $app->post('/drill/', '\ApiHandler:createDrill');
 $app->post('/drills/{id}', '\ApiHandler:saveDrillAssets');
 $app->delete('/drills/{id}', '\ApiHandler:deleteDrill');
 
+$app->post('/session/', '\ApiHandler:saveTrainingSession');
+
 
 $app->get('/athletetimes/', '\ApiHandler:getAthleteTimes');
 $app->get('/intervaltimes/', '\ApiHandler:getIntervalTimes');
